@@ -10,7 +10,9 @@ namespace Blog.Domain.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string ShortDescription { get; set; }
         public string Url { get; set; }
+        public string ImageUrl { get; set; }
         public bool Published { get; set; }
         public DateTime PostedOn { get; set; }
         public DateTime? Modified { get; set; }
@@ -18,7 +20,7 @@ namespace Blog.Domain.Entities
         public PostType Type { get; set; }
 
         // klucz obcy do Kategorii
-        public int CategorId { get; set; }
+        public int CategoryId { get; set; }
         // właściwość nawigacyjna
         public Category Category { get; set; }
 

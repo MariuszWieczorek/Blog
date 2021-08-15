@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Blog.DataLayer;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Blog.UI
 {
@@ -6,7 +9,12 @@ namespace Blog.UI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using (var context = new ApplicationDbContext() )
+            {
+                context.Database.Migrate();
+                var post = context.Posts.FirstOrDefault();
+                Console.WriteLine(post.Description);
+            }
         }
     }
 }
