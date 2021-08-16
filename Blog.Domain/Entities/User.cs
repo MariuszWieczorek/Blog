@@ -15,5 +15,6 @@ namespace Blog.Domain.Entities
         // przez jednego użytkownika
 
         public ICollection<Post> Posts { get; set; } = new HashSet<Post>();
+        public ICollection<Post> PostsApproved { get; set; } = new HashSet<Post>();
     }
 }

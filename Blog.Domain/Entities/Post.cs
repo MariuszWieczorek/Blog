@@ -1,6 +1,7 @@
 ﻿using Blog.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Domain.Entities
 {
@@ -8,6 +9,7 @@ namespace Blog.Domain.Entities
     {
 
         public int Id { get; set; }
+        
         public string Title { get; set; }
         public string Description { get; set; }
         public string ShortDescription { get; set; }
@@ -28,6 +30,13 @@ namespace Blog.Domain.Entities
         public int UserId { get; set; }
         // właściwość nawigacyjna
         public User User { get; set; }
+
+
+        // klucz obcy do użytkownika
+        public int? ApprovedByUserId { get; set; }
+        // właściwość nawigacyjna
+        public User ApprovedBy { get; set; }
+
 
         // właściwość nawigacyjna
         public ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();

@@ -1,7 +1,9 @@
-﻿using Blog.DataLayer.Extensions;
+﻿using Blog.DataLayer.Configurations;
+using Blog.DataLayer.Extensions;
 using Blog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace Blog.DataLayer
 {
@@ -13,6 +15,8 @@ namespace Blog.DataLayer
         public DbSet<Post> Posts { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public DbSet<PostTag> PostTags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,6 +31,8 @@ namespace Blog.DataLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.SeedCategories();
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); 
+           
         }
 
     }
