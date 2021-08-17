@@ -39,22 +39,22 @@ namespace Blog.DataLayer.Configurations
 
             // HasOne przekazujemy właściwość nawigacyjną z Post
             // WithMany przekazujemy kolekcję, czyli właściwość nawigacyjną z User: Posts 
-            builder.HasOne(x => x.User)
-                .WithMany(x => x.Posts)
-                .HasForeignKey(x => x.UserId)
+            builder.HasOne<User>(p => p.User)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // relacja z użytkownikiem, który zatwierdził 
-            builder.HasOne(x => x.ApprovedBy)
-               .WithMany(x => x.PostsApproved)
-               .HasForeignKey(x => x.ApprovedByUserId)
-               .OnDelete(DeleteBehavior.ClientSetNull);
+            builder.HasOne<User>(p => p.ApprovedBy)
+               .WithMany(u => u.PostsApproved)
+               .HasForeignKey(p => p.ApprovedByUserId)
+               .OnDelete(DeleteBehavior.Restrict);
 
 
             // relacja z kategorią
-            builder.HasOne(x => x.Category)
-                .WithMany(x => x.Posts)
-                .HasForeignKey(x => x.CategoryId)
+            builder.HasOne<Category>(p => p.Category)
+                .WithMany(c => c.Posts)
+                .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // wiele do wielu

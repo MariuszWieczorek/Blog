@@ -31,7 +31,8 @@ namespace Blog.DataLayer.Configurations
             builder.Property(x => x.Description)
                 .HasMaxLength(20);
 
-           
+
+
         }
     }
 }

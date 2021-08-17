@@ -18,16 +18,20 @@ namespace Blog.DataLayer.Configurations
                   .HasMaxLength(100);
 
             builder.HasIndex(x => x.Login)
-                .IsUnique();
+                 .IsUnique();
+          
 
-            // HasOne - wskazujemy właściwość nawigacyjną w Kontaktach
-            // WithOne - wskazujemy właściwość nawigacyjną w klasie User
-            // HasForeignKey<ContactInfo> wskazujemy klucz obcy w ContactInfo
-            builder.HasOne(x => x.ContactInfo)
-                .WithOne(x => x.User)
-                .HasForeignKey<ContactInfo>(x => x.UserId);
+            // właściwość nawigacyjną w klasie User
+            // właściwość nawigacyjną w klasie ContactInfo
+            // klucz obcy w ContactInfo
 
-                    
+            builder
+                .HasOne(u => u.ContactInfo)                     
+                .WithOne(c => c.User)                           
+                .HasForeignKey<ContactInfo>(c => c.UserId);
+
+          
+
 
         }
     }
