@@ -1,6 +1,7 @@
 ﻿using Blog.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Blog.UI
@@ -11,10 +12,22 @@ namespace Blog.UI
         {
             using (var context = new ApplicationDbContext() )
             {
-                context.Database.Migrate();
-                var post = context.Posts.FirstOrDefault();
-                Console.WriteLine(post.Description);
+
+                // methods.Linq02_Where_Any_All();
+                // Methods.Linq03_OrderBy();
+                // Methods.Linq04_SingleElement();
+                // Methods.Linq05_IEnumerable();
+                // Methods.Linq06_Select();
+                // Methods.Linq07_Distinct();
+                // Methods.Linq08_Join();
+                // Methods.Linq09_Except_Intersect_Union();
+                // Methods.Linq10_AggregateFunctions();
+                Methods.Linq11_DataGrouping();
+
+                Console.ReadLine();
             }
         }
+
+        
     }
 }
