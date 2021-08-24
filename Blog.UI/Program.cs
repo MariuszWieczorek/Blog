@@ -22,7 +22,8 @@ namespace Blog.UI
                 // Methods.Linq08_Join();
                 // Methods.Linq09_Except_Intersect_Union();
                 // Methods.Linq10_AggregateFunctions();
-                Methods.Linq11_DataGrouping();
+                // Methods.Linq11_DataGrouping();
+                Methods.Linq12_Pagination_Take_Skip();
 
                 Console.ReadLine();
             }

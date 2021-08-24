@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -344,13 +345,14 @@ namespace Blog.UI
             var authors = Repository.GetAuthors();
 
 
-            // mamy książki z ich autorami
+            // w tej kolekcji mamy książki z ich autorami połączone joinem
             var authorsWithBooks = books.Join(
                   authors
                 , b => b.AuthorId
                 , a => a.Id
                 , (b, a) => new { Book = b, Author = a });
 
+            
             // mamy książki z ich autorami
             // grupujemy po autorze
             // następnie wyświetlamy autora i po przecinku jego książki
@@ -371,11 +373,58 @@ namespace Blog.UI
 
             foreach (var item in authorsWithBooksGrouping)
             {
-                Console.WriteLine($"author {item.AuthorName} : books {item.Titles} ");
+                Console.WriteLine($"author {item.AuthorId } {item.AuthorName} : books {item.Titles} ");
             }
 
         }
 
+
+        public static void Linq12_Pagination_Take_Skip()
+        {
+            // chcemy wyświetlać na stronie tylko 5 rekordów
+            // na pierwszej 1 - 5, 
+            // na drugiej 6 - 10 itd
+            // za pomocą metody Skip() mogę pominąć wskazaną ilość rekordów
+            // za pomocą metody Take() mogę pobrać wskazaną ilość rekordów
+            var books = Repository.GetBooks();
+
+            int pageSize = 5;
+            int pageNumber = 2;
+
+            Stopwatch stopwatch = new Stopwatch();
+
+            Console.WriteLine($"\n --- strona {1} ");
+            var paginationBooks1 = books
+                .Take(pageSize);
+
+            PrintBooks(paginationBooks1);
+
+            var paginationBooks2 = books
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
+
+            Console.WriteLine($"\n --- strona {pageNumber} ");
+            PrintBooks(paginationBooks2);
+
+
+            for (int i = 0; i < 9999999; i++)
+            {
+                books.Add(new Book() { Id = i + 30, Title = "A", Price = 1 });
+            }
+
+            stopwatch.Start();
+
+            var paginationBooks3 = books.ToList();
+              
+
+            stopwatch.Stop();
+            
+            var totalTime = stopwatch.ElapsedMilliseconds;
+            var numberOfBooks = books.Count();
+
+            Console.WriteLine($"\n ----- czas {totalTime} ms -------- {numberOfBooks,0:n0} rekordów");
+
+        }
             private static bool IsEventNumber(int number)
         {
             return number % 2 == 0;
