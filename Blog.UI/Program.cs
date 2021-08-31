@@ -13,7 +13,17 @@ namespace Blog.UI
             using (var context = new ApplicationDbContext() )
             {
 
-               
+                // pobieramy wszystki posty
+                var posts = context.Posts;
+                var userWithId3 = context.Users.Find(3);
+
+                Console.WriteLine(userWithId3.Login);
+                foreach (var item in posts)
+                {
+                    Console.WriteLine(item.Title);
+                }
+                 
+
 
                 Console.ReadLine();
             }
