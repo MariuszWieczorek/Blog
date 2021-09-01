@@ -1,32 +1,22 @@
-﻿using Blog.DataLayer;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Blog.UI
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            using (var context = new ApplicationDbContext() )
-            {
+            //Methods.ExplicitLoading01();
+            //Methods.ExplicitLoading02();
+            //Methods.ExplicitLoading03();
 
-                // pobieramy wszystki posty
-                var posts = context.Posts;
-                var userWithId3 = context.Users.Find(3);
+            //Methods.IQueryableVsIEnumerable04();
+            // Methods.ChangeTracker01();
+            // Methods.Inne01();
+            Methods.RawSQL01();
 
-                Console.WriteLine(userWithId3.Login);
-                foreach (var item in posts)
-                {
-                    Console.WriteLine(item.Title);
-                }
-                 
-
-
-                Console.ReadLine();
-            }
+            Console.ReadLine();
         }
 
         

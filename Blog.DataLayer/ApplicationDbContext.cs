@@ -3,6 +3,9 @@ using Blog.DataLayer.Extensions;
 using Blog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
+using System;
 using System.Reflection;
 
 namespace Blog.DataLayer
@@ -10,6 +13,7 @@ namespace Blog.DataLayer
     public class ApplicationDbContext : DbContext
     {
 
+        public static readonly ILoggerFactory _loggerFactory = new NLogLoggerFactory();
         public DbSet<Category> Categories { get; set; }
         public DbSet<ContactInfo> ContactInfo { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -21,11 +25,18 @@ namespace Blog.DataLayer
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
+
+
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true, true);
             var config = builder.Build();
 
-            optionsBuilder.UseSqlServer(config["ConnectionString"]);
+            optionsBuilder
+                .UseLoggerFactory(_loggerFactory)
+                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Name },
+                        Microsoft.Extensions.Logging.LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .UseSqlServer(config["ConnectionString"]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
