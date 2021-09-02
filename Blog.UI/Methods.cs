@@ -226,9 +226,20 @@ namespace Blog.UI
                     .ToListAsync();
 
 
-                foreach (var item in posts2)
+                var posts4 = await context.Posts
+                    .FromSqlRaw("SELECT * FROM POSTS2")
+                    .Where(x=>x.Id > 0)
+                    .ToListAsync();
+
+
+                var posts5 = await context.Custom
+                    .FromSqlRaw("SELECT Description as FullDescription FROM POSTS2")
+                    .ToListAsync();
+
+
+                foreach (var item in posts5)
                 {
-                    Console.WriteLine(item.Id);
+                    Console.WriteLine(item.FullDescription);
                 }
 
             

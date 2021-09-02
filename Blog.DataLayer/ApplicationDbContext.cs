@@ -1,6 +1,7 @@
 ﻿using Blog.DataLayer.Configurations;
 using Blog.DataLayer.Extensions;
 using Blog.Domain.Entities;
+using Blog.Domain.Queries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -21,6 +22,8 @@ namespace Blog.DataLayer
         public DbSet<User> Users { get; set; }
 
         public DbSet<PostTag> PostTags { get; set; }
+
+        public DbSet<Custom> Custom { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
