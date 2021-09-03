@@ -25,6 +25,10 @@ namespace Blog.DataLayer
 
         public DbSet<Custom> Custom { get; set; }
 
+        public DbSet<Student> Students { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
