@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace Blog.UI
 {
-    public static class Methods02
+    public static class AddMethods
     {
-        public static async Task Task01()
+        public static async Task Add01_simple()
         {
             var category = new Category()
             { 
@@ -42,8 +42,13 @@ namespace Blog.UI
 
 
 
-        public static async Task Task02()
+        public static async Task Add02_RelatedObjects()
         {
+            // tworzymy nowe obiekty typu user, tag, category
+            // następnie używamy tych obiektów przy tworzeniu nowego artykułu
+            // dodanie artykułu powoduje wcześniejsze dodanie do bazy
+            // uzytkownika, tagu, kategorii
+            // ważne aby operować na referencjach nie na numerach id
             var category = new Category()
             {
                 Name = "Category XYZ",
@@ -104,9 +109,11 @@ namespace Blog.UI
         }
 
 
-        public static async Task Task03()
+        public static async Task Add03_RelatedObjects()
         {
-          
+          // tworzymy nowy artykuł
+          // używamy istniejące obiekty typu user, tag, category
+          // zapisujemy numery id, nie musimy operować na referencjach
 
             var post = new Post()
             {
@@ -182,7 +189,7 @@ namespace Blog.UI
             using (var context = new ApplicationDbContext())
             {
 
-                // dodając sam post wszystkie powyższe zmiany zostaną dodane
+       
                 context.Posts.Add(post);
                 context.PostTags.AddRange(postTags);
 
@@ -197,11 +204,14 @@ namespace Blog.UI
         }
 
 
-        // Dodajemy 3000 Tagów
-        // Test z AddRange
-        public static async Task Task05()
-        {
 
+        public static async Task Add05_AddvsAddRange()
+        {
+            // Dodajemy 3000 nowych tagów
+            // Następnie zapisujemy je do bazy na dwa sposoby
+            // za pomocą Add() uruchomionego w pętli
+            // za pomocą AddRange()
+            // porównujemy czas wykonania obu metod
 
             var tags = new List<Tag>();
             for (int i = 0; i < 3000; i++)
@@ -209,40 +219,34 @@ namespace Blog.UI
                 tags.Add(new Tag { Name = $"ZName {i}", Url =$"ZUrl {i}"});
             }
 
-
             var stopwatch = new Stopwatch();
-            
-
+          
             using (var context = new ApplicationDbContext())
             {
 
                 stopwatch.Start();
-
 
                 foreach (var item in tags)
                 {
                     context.Tags.Add(item);
                 }
 
-
-
                 context.AddRange(tags);
 
-                
                 await context.SaveChangesAsync();
                 stopwatch.Stop();
                 Console.WriteLine(stopwatch.ElapsedMilliseconds);
-
-
             }
-
         }
 
-        // Test z wykorzystaniem BulkExtensions
-        // Uwaga context.SaveChangesAsync() nie jest potrzebne
-        public static async Task Task06()
+        
+        
+        public static async Task Add06_WithBulkInsert()
         {
 
+            // Test z wykorzystaniem BulkExtensions
+            // Dodajemy 3000 nowych tagów
+            // Następnie zapisujemy je do bazy za pomocą BulkInsert
 
             var tags = new List<Tag>();
             for (int i = 0; i < 3000; i++)
@@ -259,6 +263,7 @@ namespace Blog.UI
 
                 stopwatch.Start();
 
+                // Uwaga context.SaveChangesAsync() nie jest potrzebne
                 await context.BulkInsertAsync(tags);
 
 
@@ -270,120 +275,7 @@ namespace Blog.UI
 
         }
 
-        public static async Task Update01()
-        {
-            // prosty update
-            using (var context = new ApplicationDbContext())
-            {
-
-                var categoryToUpdate = await context.Categories.FindAsync(5);
-                categoryToUpdate.Description = "x1";
-                await context.SaveChangesAsync();
-            }
-        }
-
-
-        public static async Task Update02()
-        {
-            // wybieramy istniejącego użytkownika
-            // i Id tego użytkownika zapisujemy w tabeli postów
-            var stopwatch = new Stopwatch();
-
-            Category categoryToUpdate = null;
-
-            using (var context = new ApplicationDbContext())
-            {
-
-                categoryToUpdate = await context.Categories.FindAsync(5);
-                categoryToUpdate.Description = "xs";
-            }
-
-            using (var context = new ApplicationDbContext())
-            {
-                context.Categories.Update(categoryToUpdate);
-                context.Categories.Attach(categoryToUpdate).State = EntityState.Modified;
-                await context.SaveChangesAsync();
-            }
-
-        }
-
-
-        public static async Task Update03_ObiektyPowiazane()
-        {
-            // aktualizujemy dodając nowego użytkownika
-            // zamiast Id użytkownika podajemy referencję do użytkownika
-            var stopwatch = new Stopwatch();
-
-            var contact = new ContactInfo()
-            {
-                Email = "user123@onet.pl"
-            };
-            var User = new User()
-            {
-                Login = "User123",
-                Password = "Pass123"
-            };
-
-            using (var context = new ApplicationDbContext())
-            {
-
-                var postToUpdate = await context.Posts.FindAsync(5);
-                postToUpdate.ApprovedBy = User;
-                await context.SaveChangesAsync();
-            }
-
-        }
-
-
-        public static async Task Update04_ManyToMany()
-        {
-            // aktualizowanie powiązań wiele do wielu
-            // za pomocą klasy rozszerzającej DbContext
-
-            var stopwatch = new Stopwatch();
-
-            var contact = new ContactInfo()
-            {
-                Email = "user123@onet.pl"
-            };
-            var User = new User()
-            {
-                Login = "User123",
-                Password = "Pass123"
-            };
-
-            var newTags = new List<Tag>()
-            {
-                new Tag {Id = 1},
-                new Tag {Id = 2},
-                new Tag {Id = 3},
-                new Tag {Id = 4},
-                new Tag {Id = 5},
-            };
-
-
-            using (var context = new ApplicationDbContext())
-            {
-
-                var postToUpdate = await context.Posts.FindAsync(5);
-                var postTags = await context.PostTags
-                    .Where(x => x.PostId == postToUpdate.Id)
-                    .AsNoTracking()
-                    .ToListAsync();
-
-                context.TryUpdateManyToMany(postTags,
-                    newTags.Select(x=> new PostTag { TagId = x.Id, PostId = postToUpdate.Id } ),
-                    x=>x.TagId
-                    );
-
-
-                DisplayEntitiesInfo(context);
-                await context.SaveChangesAsync();
-            }
-
-
-
-        }
+        
 
         private static void DisplayEntitiesInfo(ApplicationDbContext context)
         {

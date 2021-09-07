@@ -14,6 +14,7 @@ namespace Blog.DataLayer.Configurations
         public void Configure(EntityTypeBuilder<PostTag> builder)
         {
             builder.ToTable("PostTagsMaps");
+        
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Blog.UI
             // await Methods02.Task02();
             // await Methods02.Task03();
             // await Methods02.Task04();
-            await Methods02.Update04_ObiektyPowiazane();
+            await UpdateMethods.Update06_UpdateWithBulkUpdate();
 
 
             Console.ReadLine();
