@@ -109,7 +109,13 @@ namespace Blog.UI
 
                 var category = new Category() { Id = 4 };
 
-                var postsToDelete = context.Posts
+
+                // uwaga jak zapomnisz w tym miejscu słowa async
+                // będzie później błąd kompilacji w przypadku
+                // próby wywołania asynchronicznego BulkDeleteAsync()
+                // BulkDelete() natomiast pójdzie bez problemu
+
+                var postsToDelete = await context.Posts
                     .Where(x => x.CategoryId == category.Id)
                     .ToListAsync();
 
@@ -121,7 +127,7 @@ namespace Blog.UI
 
                 // lub korzystając z BulkDelete
 
-                // await context.BulkDeleteAsync(postsToDelete);
+                await context.BulkDeleteAsync(postsToDelete);
 
 
 

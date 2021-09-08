@@ -34,7 +34,8 @@ namespace Blog.UI
             // await Methods02.Task03();
             // await Methods02.Task04();
             // await DeleteMethods.Concurrency01();
-            await DeleteMethods.ProcedureTest02();
+            await DeleteMethods.Delete04_BulkDelete();
+            // await DeleteMethods.ProcedureTest02();
 
 
             Console.ReadLine();
