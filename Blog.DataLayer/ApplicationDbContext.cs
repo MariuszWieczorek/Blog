@@ -1,7 +1,8 @@
 ﻿using Blog.DataLayer.Configurations;
 using Blog.DataLayer.Extensions;
 using Blog.Domain.Entities;
-using Blog.Domain.Queries;
+using Blog.Domain.Entities.Queries;
+using Blog.Domain.Entities.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,8 @@ namespace Blog.DataLayer
 
         public DbSet<Group> Groups { get; set; }
 
+        public DbSet<UserFullInfo> UserFullInfo { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

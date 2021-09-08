@@ -33,7 +33,8 @@ namespace Blog.UI
             // await Methods02.Task02();
             // await Methods02.Task03();
             // await Methods02.Task04();
-            await UpdateMethods.Update06_UpdateWithBulkUpdate();
+            // await DeleteMethods.Concurrency01();
+            await DeleteMethods.ProcedureTest02();
 
 
             Console.ReadLine();

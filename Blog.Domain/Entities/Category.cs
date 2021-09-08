@@ -9,6 +9,8 @@ namespace Blog.Domain.Entities
         public string Url { get; set; }
         public string Description { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         // właściwości nawigacyjne
 
         public ICollection<Post> Posts { get; set; } = new HashSet<Post>();

@@ -1,4 +1,4 @@
-﻿using Blog.Domain.Queries;
+﻿using Blog.Domain.Entities.Queries;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

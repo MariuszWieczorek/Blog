@@ -29,7 +29,11 @@ namespace Blog.DataLayer.Configurations
                 .HasMaxLength(500);
 
             builder.Property(x => x.Description)
-                .HasMaxLength(20);
+                .HasMaxLength(20)
+                .IsConcurrencyToken();
+
+            builder.Property(x => x.IsDeleted)
+                .HasDefaultValue(true);
 
 
 

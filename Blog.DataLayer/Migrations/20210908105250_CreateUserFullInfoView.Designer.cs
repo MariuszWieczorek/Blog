@@ -4,14 +4,16 @@ using Blog.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Blog.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210908105250_CreateUserFullInfoView")]
+    partial class CreateUserFullInfoView
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,14 +184,6 @@ namespace Blog.DataLayer.Migrations
                     b.ToTable("PostTagsMaps");
                 });
 
-            modelBuilder.Entity("Blog.Domain.Entities.Queries.Custom", b =>
-                {
-                    b.Property<string>("FullDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToView("Custom");
-                });
-
             modelBuilder.Entity("Blog.Domain.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -263,18 +257,12 @@ namespace Blog.DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Blog.Domain.Entities.Views.UserFullInfo", b =>
+            modelBuilder.Entity("Blog.Domain.Queries.Custom", b =>
                 {
-                    b.Property<string>("Email")
+                    b.Property<string>("FullDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Login")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToView("UserFullInfo");
+                    b.ToView("Custom");
                 });
 
             modelBuilder.Entity("Blog.Domain.Entities.ContactInfo", b =>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blog.Domain.Queries
+namespace Blog.Domain.Entities.Queries
 {
     public class Custom
     {
